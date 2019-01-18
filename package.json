@@ -6,6 +6,7 @@
   "license": "MIT",
   "repository": "8fit/carousel-animation",
   "main": "build/index.js",
+  "types": "./lib/index.d.ts",
   "scripts": {
     "build": "tsc",
     "postinstall": "npm run build"
