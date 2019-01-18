@@ -1,0 +1,28 @@
+{
+  "name": "eightfit.carousel.animation",
+  "version": "1.0.0",
+  "description": "Create carousel animation using configuration files",
+  "author": "drmas",
+  "license": "MIT",
+  "repository": "8fit/carousel-animation",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "postinstall": "npm run build"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "devDependencies": {
+    "@types/react": "^16.7.20",
+    "@types/react-native": "^0.57.28",
+    "react-native": "*",
+    "react": "^16.7.0",
+    "typescript": "^2.8.3"
+  },
+  "files": [
+    "dist"
+  ]
+}
