@@ -1,11 +1,11 @@
 {
   "name": "eightfit.carousel.animation",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Create carousel animation using configuration files",
   "author": "drmas",
   "license": "MIT",
   "repository": "8fit/carousel-animation",
-  "main": "dist/index.js",
+  "main": "build/index.js",
   "scripts": {
     "build": "tsc",
     "postinstall": "npm run build"
