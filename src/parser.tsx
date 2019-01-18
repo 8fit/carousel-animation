@@ -29,8 +29,6 @@ function createComponent(json: any, assets: AssetsLibrary) {
     properties.source = assets[properties.source.require];
   }
 
-  console.log('creating ', json)
-
   if(children) {
     children = children.map(mapChildren(assets))
   }
