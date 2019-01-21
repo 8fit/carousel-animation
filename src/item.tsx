@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Animated, ViewProps } from "react-native";
 import Group from "./group";
-import { SliderProps } from "./slider";
 
 interface Frame {
   frame: number;
@@ -13,19 +12,27 @@ interface KeyFrame {
   frames: Frame[];
 }
 
-export interface ItemProps extends ViewProps, SliderProps {
+export interface ItemProps extends ViewProps {
+  slideWidth?: number;
+  slideHeight?: number;
+  totalFrames?: number;
   keyframes: KeyFrame[];
-  animatedScroll: Animated.Value;
+  animatedScroll?: Animated.Value;
   center: boolean;
   children?: React.ReactNode;
 }
 
 export default class Item extends Component<ItemProps> {
   static defaultProps = {
-    keyframes: []
+    keyframes: [],
   };
 
   get style() {
+    const { slideWidth = 0, slideHeight = 0, animatedScroll } = this.props;
+    if(!animatedScroll) {
+      return null;
+    }
+
     let style:any = { transform: [{ perspective: 1000 }] };
 
     this.props.keyframes.map(keyframe => {
@@ -34,18 +41,18 @@ export default class Item extends Component<ItemProps> {
       const outputRange: number[] = [];
 
       frames.forEach(({ frame, value }) => {
-        inputRange.push((frame / 375) * this.props.slideWidth);
+        inputRange.push((frame / 375) * slideWidth);
 
         if (property === "translateX") {
-          outputRange.push(value * this.props.slideWidth);
+          outputRange.push(value * slideWidth);
         } else if (property === "translateY") {
-          outputRange.push(value * this.props.slideHeight);
+          outputRange.push(value * slideHeight);
         } else {
           outputRange.push(value);
         }
       });
 
-      const interpolatedValue = this.props.animatedScroll.interpolate({
+      const interpolatedValue = animatedScroll.interpolate({
         inputRange,
         outputRange,
         extrapolate: "clamp"
