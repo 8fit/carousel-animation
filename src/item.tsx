@@ -4,7 +4,7 @@ import Group from "./group";
 
 interface Frame {
   frame: number;
-  value: number;
+  value: number | string;
 }
 
 interface KeyFrame {
@@ -38,15 +38,15 @@ export default class Item extends Component<ItemProps> {
 
     this.props.keyframes.map(keyframe => {
       const { property, frames } = keyframe;
-      const inputRange: number[] = [];
-      const outputRange: number[] = [];
+      const inputRange: any[] = [];
+      const outputRange: any[] = [];
 
       frames.forEach(({ frame, value }) => {
         inputRange.push((frame / 375) * slideWidth);
 
-        if (property === "translateX") {
+        if (property === "translateX" && typeof value === 'number' ) {
           outputRange.push(value * slideWidth);
-        } else if (property === "translateY") {
+        } else if (property === "translateY" && typeof value === 'number') {
           outputRange.push(value * slideHeight);
         } else {
           outputRange.push(value);
