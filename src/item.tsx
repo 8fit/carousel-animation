@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { Animated, Dimensions, ViewProps } from "react-native";
+import { Animated, ViewProps } from "react-native";
 import Group from "./group";
 import { SliderProps } from "./slider";
-const { width: screenWidth, height: screenHeight } = Dimensions.get("screen");
 
 interface Frame {
   frame: number;
@@ -35,12 +34,12 @@ export default class Item extends Component<ItemProps> {
       const outputRange: number[] = [];
 
       frames.forEach(({ frame, value }) => {
-        inputRange.push((frame / 375) * screenWidth);
+        inputRange.push((frame / 375) * this.props.slideWidth);
 
         if (property === "translateX") {
           outputRange.push(value * this.props.slideWidth);
         } else if (property === "translateY") {
-          outputRange.push(value * screenHeight);
+          outputRange.push(value * this.props.slideHeight);
         } else {
           outputRange.push(value);
         }

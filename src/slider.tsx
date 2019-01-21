@@ -1,15 +1,12 @@
 import React, { Component } from "react";
 import {
-  Dimensions,
   StyleSheet,
   Animated
 } from "react-native";
 
-const { width: screenWidth } = Dimensions.get("screen");
-
 export interface SliderProps {
   slideWidth: number;
-  totalWidth: number;
+  slideHeight: number;
   totalFrames: number;
   pages: number;
 }
@@ -20,14 +17,14 @@ export default class Slider extends Component<SliderProps> {
   render() {
     const { children, totalFrames } = this.props;
 
-    const totalWidth = screenWidth * this.props.pages;
+    const totalWidth = this.props.slideWidth * this.props.pages;
 
     const childrenWithProps = React.Children.map(children, (child: any, index) =>
       React.cloneElement(child, {
         animatedScroll: this.animatedScroll,
         page: index,
-        slideWidth: screenWidth,
-        totalWidth,
+        slideWidth: this.props.slideWidth,
+        slideHeight: this.props.slideHeight,
         totalFrames
       })
     );

@@ -7,8 +7,6 @@ export default function Group (props: ItemProps) {
     (child: any, index) =>
       React.cloneElement(child, {
         animatedScroll: props.animatedScroll,
-        totalWidth: props.totalWidth,
-        slideWidth: props.slideWidth,
         totalFrames: props.totalFrames,
         key: 'KEY_' + index
       })
