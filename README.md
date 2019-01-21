@@ -6,7 +6,7 @@
 ## Install
 
 ```bash
-yarn add https://github.com/8fit/carousel-animation.git#v0.1.8
+yarn add https://github.com/8fit/carousel-animation.git#v0.1.9
 ```
 
 ## Usage
