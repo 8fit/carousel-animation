@@ -28,8 +28,9 @@ export default class Item extends Component<ItemProps> {
   };
 
   get style() {
-    const { slideWidth = 0, slideHeight = 0, animatedScroll } = this.props;
-    if(!animatedScroll) {
+    const { slideWidth, slideHeight, animatedScroll } = this.props;
+    
+    if(!slideWidth || ! slideHeight || !animatedScroll) {
       return null;
     }
 
