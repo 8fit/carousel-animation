@@ -8,7 +8,8 @@ interface Frame {
 }
 
 interface KeyFrame {
-  property: string;
+  property: 'perspective' | 'rotate' | 'rotateX' | 'rotateY' | 'rotateZ'
+          | 'scale' | 'scaleX' | 'scaleY' | 'translateX' | 'translateY' | 'skewX' | 'skewY';
   frames: Frame[];
 }
 
@@ -16,7 +17,7 @@ export interface ItemProps extends ViewProps {
   slideWidth?: number;
   slideHeight?: number;
   totalFrames?: number;
-  keyframes: KeyFrame[];
+  keyframes?: KeyFrame[];
   animatedScroll?: Animated.Value;
   center: boolean;
   children?: React.ReactNode;
@@ -28,15 +29,15 @@ export default class Item extends Component<ItemProps> {
   };
 
   get style() {
-    const { slideWidth, slideHeight, animatedScroll } = this.props;
+    const { slideWidth, slideHeight, animatedScroll, keyframes } = this.props;
     
-    if(!slideWidth || ! slideHeight || !animatedScroll) {
+    if(!slideWidth || ! slideHeight || !animatedScroll || !keyframes) {
       return null;
     }
 
     let style:any = { transform: [{ perspective: 1000 }] };
 
-    this.props.keyframes.map(keyframe => {
+    keyframes.map(keyframe => {
       const { property, frames } = keyframe;
       const inputRange: any[] = [];
       const outputRange: any[] = [];
