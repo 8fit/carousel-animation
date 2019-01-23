@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import {
   StyleSheet,
-  Animated
+  Animated,
+  ScrollViewProperties
 } from "react-native";
 
 export interface SliderProps {
@@ -9,6 +10,7 @@ export interface SliderProps {
   slideHeight: number;
   totalFrames: number;
   pages: number;
+  scrollViewProps: ScrollViewProperties;
 }
 
 export default class Slider extends Component<SliderProps> {
@@ -46,6 +48,7 @@ export default class Slider extends Component<SliderProps> {
             }
           )}
           scrollEventThrottle={1}
+          {...this.props.scrollViewProps}
         />
       </>
     );
