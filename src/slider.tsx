@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import {
   StyleSheet,
-  Animated
+  Animated,
+  ScrollViewProperties,
+  View
 } from "react-native";
 
 export interface SliderProps {
@@ -9,6 +11,7 @@ export interface SliderProps {
   slideHeight: number;
   totalFrames: number;
   pages: number;
+  scrollViewProps?: ScrollViewProperties;
 }
 
 export default class Slider extends Component<SliderProps> {
@@ -31,9 +34,9 @@ export default class Slider extends Component<SliderProps> {
 
     return (
       <>
-        <Animated.View style={styles.container}>
+        <View style={styles.container}>
           {childrenWithProps}
-        </Animated.View>
+        </View>
         <Animated.ScrollView
           horizontal
           pagingEnabled
@@ -46,6 +49,9 @@ export default class Slider extends Component<SliderProps> {
             }
           )}
           scrollEventThrottle={1}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          {...this.props.scrollViewProps}
         />
       </>
     );
@@ -55,7 +61,8 @@ export default class Slider extends Component<SliderProps> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignSelf: "stretch"
+    alignSelf: "stretch",
+    
   },
   scroll: {
     position: "absolute",
