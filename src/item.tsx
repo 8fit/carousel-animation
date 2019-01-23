@@ -8,7 +8,7 @@ interface Frame {
 }
 
 interface KeyFrame {
-  property: 'perspective' | 'rotate' | 'rotateX' | 'rotateY' | 'rotateZ'
+  property: 'opacity' | 'perspective' | 'rotate' | 'rotateX' | 'rotateY' | 'rotateZ'
           | 'scale' | 'scaleX' | 'scaleY' | 'translateX' | 'translateY' | 'skewX' | 'skewY';
   frames: Frame[];
 }
@@ -19,7 +19,7 @@ export interface ItemProps extends ViewProps {
   totalFrames?: number;
   keyframes?: KeyFrame[];
   animatedScroll?: Animated.Value;
-  center: boolean;
+  center?: boolean;
   children?: React.ReactNode;
 }
 
