@@ -3,20 +3,29 @@ import {
   StyleSheet,
   Animated,
   ScrollViewProperties,
-  View
+  View,
+  ScrollViewProps,
 } from "react-native";
 
-export interface SliderProps {
+export interface SliderProps extends ScrollViewProps {
   slideWidth: number;
   slideHeight: number;
   totalFrames: number;
   pages: number;
   scrollViewProps?: ScrollViewProperties;
+  onPageChange?: (page: number) => void;
 }
 
 export default class Slider extends Component<SliderProps> {
   animatedScroll = new Animated.Value(0);
 
+  onMomentumScrollEnd = (event: any) => {
+    const page = Math.round(event.nativeEvent.contentOffset.x / this.props.slideWidth);
+    if(this.props.onPageChange) {
+      this.props.onPageChange(page);
+    }
+  };
+  
   render() {
     const { children, totalFrames } = this.props;
 
@@ -51,6 +60,7 @@ export default class Slider extends Component<SliderProps> {
           scrollEventThrottle={1}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
+          onMomentumScrollEnd={this.onMomentumScrollEnd}
           {...this.props.scrollViewProps}
         />
       </>
