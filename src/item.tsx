@@ -18,6 +18,8 @@ export interface ItemProps extends ViewProps {
   slideHeight?: number;
   totalFrames?: number;
   keyframes?: KeyFrame[];
+  skipFrames?: number;
+  pages?: number;
   animatedScroll?: Animated.Value;
   center?: boolean;
   children?: React.ReactNode;
@@ -29,9 +31,9 @@ export default class Item extends Component<ItemProps> {
   };
 
   get style() {
-    const { slideWidth, slideHeight, animatedScroll, keyframes } = this.props;
+    const { slideWidth, slideHeight, animatedScroll, keyframes, totalFrames, pages } = this.props;
     
-    if(!slideWidth || ! slideHeight || !animatedScroll || !keyframes) {
+    if(!slideWidth || ! slideHeight || !animatedScroll || !keyframes || !totalFrames || !pages) {
       return null;
     }
 
@@ -43,7 +45,9 @@ export default class Item extends Component<ItemProps> {
       const outputRange: any[] = [];
 
       frames.forEach(({ frame, value }) => {
-        inputRange.push((frame / 375) * slideWidth);
+        const frameNumber = this.props.skipFrames ? frame - this.props.skipFrames : frame;
+        const framePerPage = totalFrames / pages;
+        inputRange.push((frameNumber / framePerPage) * slideWidth);
 
         if (property === "translateX" && typeof value === 'number' ) {
           outputRange.push(value * slideWidth);

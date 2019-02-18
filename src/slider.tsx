@@ -13,6 +13,7 @@ export interface SliderProps extends ScrollViewProps {
   totalFrames: number;
   pages: number;
   scrollViewProps?: ScrollViewProperties;
+  skipFrames?: number;
   onPageChange?: (page: number) => void;
 }
 
@@ -35,8 +36,10 @@ export default class Slider extends Component<SliderProps> {
       React.cloneElement(child, {
         animatedScroll: this.animatedScroll,
         page: index,
+        pages: this.props.pages,
         slideWidth: this.props.slideWidth,
         slideHeight: this.props.slideHeight,
+        skipFrames: this.props.skipFrames,
         totalFrames
       })
     );
