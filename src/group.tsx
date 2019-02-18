@@ -10,6 +10,7 @@ export default function Group(props: ItemProps) {
       slideWidth: props.slideWidth,
       slideHeight: props.slideHeight,
       skipFrames: props.skipFrames,
+      pages: props.pages,
       key: 'KEY_' + index,
     }),
   );
