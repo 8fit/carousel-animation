@@ -1,4 +1,4 @@
-# Carousel Animation
+# Animated-Carousel
 
 > Create carousel animation using configuration files
 
@@ -6,7 +6,7 @@
 ## Install
 
 ```bash
-yarn add https://github.com/8fit/carousel-animation.git#v0.1.9
+yarn add @eightfit/animated-carousel
 ```
 
 ## Usage
@@ -16,7 +16,7 @@ yarn add https://github.com/8fit/carousel-animation.git#v0.1.9
 ```tsx
 import React from 'react';
 import { Dimensions, Image } from 'react-native';
-import { Slider, Item } from 'eightfit.carousel.animation';
+import { Slider, Item } from '@eightfit/animated-carousel';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('screen');
 
