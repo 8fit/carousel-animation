@@ -6,7 +6,7 @@
 ## Install
 
 ```bash
-yarn add @eightfit/animated-carousel
+yarn add @8fit/animated-carousel
 ```
 
 ## Usage
@@ -175,4 +175,4 @@ export default function UpgradeCTACarousel() {
 
 ## License
 
-MIT © [drmas](https://github.com/drmas)
+MIT © [8fit](https://github.com/8fit)
