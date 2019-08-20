@@ -1,8 +1,9 @@
-import React from 'react';
-import { ItemProps } from './item';
+import React, { FunctionComponent, memo } from 'react';
 import { View } from 'react-native';
 
-export default function Group(props: ItemProps) {
+import { ItemProps } from './item';
+
+const Group: FunctionComponent<ItemProps> = props => {
   const childrenWithProps = React.Children.map(props.children, (child: any, index) =>
     React.cloneElement(child, {
       animatedScroll: props.animatedScroll,
@@ -14,5 +15,8 @@ export default function Group(props: ItemProps) {
       key: 'KEY_' + index,
     }),
   );
+
   return <View {...props}>{childrenWithProps}</View>;
-}
+};
+
+export default memo(Group);

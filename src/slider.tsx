@@ -1,11 +1,5 @@
-import React, { Component } from "react";
-import {
-  StyleSheet,
-  Animated,
-  ScrollViewProperties,
-  View,
-  ScrollViewProps,
-} from "react-native";
+import React, { FunctionComponent, useRef, useCallback, Children, cloneElement } from 'react';
+import { StyleSheet, Animated, ScrollViewProperties, View, ScrollViewProps } from 'react-native';
 
 export interface SliderProps extends ScrollViewProps {
   slideWidth: number;
@@ -17,71 +11,64 @@ export interface SliderProps extends ScrollViewProps {
   onPageChange?: (page: number) => void;
 }
 
-export default class Slider extends Component<SliderProps> {
-  animatedScroll = new Animated.Value(0);
+const Slider: FunctionComponent<SliderProps> = props => {
+  const animatedScroll = useRef(new Animated.Value(0));
+  const totalWidth = props.slideWidth * props.pages;
+  const childrenWithProps = Children.map(props.children, (child: any, index) =>
+    cloneElement(child, {
+      animatedScroll: animatedScroll,
+      page: index,
+      pages: props.pages,
+      slideWidth: props.slideWidth,
+      slideHeight: props.slideHeight,
+      skipFrames: props.skipFrames,
+      totalFrames: props.totalFrames,
+    }),
+  );
 
-  onMomentumScrollEnd = (event: any) => {
-    const page = Math.round(event.nativeEvent.contentOffset.x / this.props.slideWidth);
-    if(this.props.onPageChange) {
-      this.props.onPageChange(page);
-    }
-  };
-  
-  render() {
-    const { children, totalFrames } = this.props;
+  const handleMomentumScrollEnd = useCallback(
+    (event: any) => {
+      const page = Math.round(event.nativeEvent.contentOffset.x / props.slideWidth);
 
-    const totalWidth = this.props.slideWidth * this.props.pages;
+      if (props.onPageChange) props.onPageChange(page);
+    },
+    [props.slideWidth, props.onPageChange],
+  );
 
-    const childrenWithProps = React.Children.map(children, (child: any, index) =>
-      React.cloneElement(child, {
-        animatedScroll: this.animatedScroll,
-        page: index,
-        pages: this.props.pages,
-        slideWidth: this.props.slideWidth,
-        slideHeight: this.props.slideHeight,
-        skipFrames: this.props.skipFrames,
-        totalFrames
-      })
-    );
+  return (
+    <>
+      <View style={styles.container}>{childrenWithProps}</View>
+      <Animated.ScrollView
+        horizontal
+        pagingEnabled
+        style={styles.scroll}
+        contentContainerStyle={{ width: totalWidth }}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { x: animatedScroll.current } } }],
+          { useNativeDriver: true },
+        )}
+        scrollEventThrottle={1}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        onMomentumScrollEnd={handleMomentumScrollEnd}
+        {...props.scrollViewProps}
+      />
+    </>
+  );
+};
 
-    return (
-      <>
-        <View style={styles.container}>
-          {childrenWithProps}
-        </View>
-        <Animated.ScrollView
-          horizontal
-          pagingEnabled
-          style={styles.scroll}
-          contentContainerStyle={{ width: totalWidth }}
-          onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { x: this.animatedScroll } } }],
-            {
-              useNativeDriver: true
-            }
-          )}
-          scrollEventThrottle={1}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          onMomentumScrollEnd={this.onMomentumScrollEnd}
-          {...this.props.scrollViewProps}
-        />
-      </>
-    );
-  }
-}
+export default Slider;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignSelf: "stretch",
-    
+    alignSelf: 'stretch',
   },
   scroll: {
-    position: "absolute",
+    position: 'absolute',
     left: 0,
     right: 0,
     top: 0,
-    bottom: 0
-  }
+    bottom: 0,
+  },
 });

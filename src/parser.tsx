@@ -1,48 +1,39 @@
 import React from 'react';
-import {Image, View} from 'react-native';
+import { Image, View } from 'react-native';
+
 import Item from './item';
 import Group from './group';
 import Slider from './slider';
 
-const types:any = {
+const types: any = {
   Image,
   View,
   Item,
   Group,
+};
+
+interface AssetsLibrary {
+  [key: string]: any;
 }
 
-interface AssetsLibrary {[key: string]: any}
-
-export default (json: any, assets: AssetsLibrary) => {
-  const {properties, children} = json;
-  return <Slider
-    {...properties}
-    >
-    {children.map(mapChildren(assets))}
-    </Slider>
+function mapChild(assets: AssetsLibrary) {
+  return (item: any, index: number) =>
+    createComponent({ ...item, properties: { ...item.properties, key: 'ITEM__' + index } }, assets);
 }
 
 function createComponent(json: any, assets: AssetsLibrary) {
-  let {type, properties, children} = json;
+  const { type, properties, children } = json;
+  const withAssets = mapChild(assets);
 
-  if(properties && properties.source && properties.source.require) {
+  if (properties && properties.source && properties.source.require) {
     properties.source = assets[properties.source.require];
   }
 
-  if(children) {
-    children = children.map(mapChildren(assets))
-  }
-
-  return React.createElement(types[type], properties, children);
+  return React.createElement(types[type], properties, (children || []).map(withAssets));
 }
 
-const mapChildren = (assets: AssetsLibrary) => (item: any, index: number) => {
-  item = {
-    ...item,
-    properties: {
-      ... item.properties,
-      key: 'ITEM__' + index
-    }
-  }
-  return createComponent(item, assets)
-}
+const Parser = ({ properties, children }: any, assets: AssetsLibrary) => (
+  <Slider {...properties}>{children.map(mapChild(assets))}</Slider>
+);
+
+export default Parser;
