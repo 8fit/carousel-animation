@@ -43,7 +43,6 @@ export interface ItemProps extends ViewProps {
   pages?: number;
   animatedScroll?: Animated.Value;
   center?: boolean;
-  context?: any;
 }
 
 const getInterpolatedStyles = (
