@@ -1,12 +1,11 @@
-# Animated-Carousel
+# carousel-animation
 
 > Create carousel animation using configuration files
-
 
 ## Install
 
 ```bash
-yarn add @8fit/animated-carousel
+yarn add @8fit/carousel-animation
 ```
 
 ## Usage
@@ -16,7 +15,7 @@ yarn add @8fit/animated-carousel
 ```tsx
 import React from 'react';
 import { Dimensions, Image } from 'react-native';
-import { Slider, Item } from '@eightfit/animated-carousel';
+import { Slider, Item } from '@8fit/carousel-animation';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('screen');
 
@@ -53,12 +52,11 @@ export default function UpgradeCTACarousel() {
     </Slider>
   );
 }
-
 ```
 
 ### Using json files
 
-``` json
+```json
 // animation.json
 {
   "properties": {
@@ -99,16 +97,13 @@ export default function UpgradeCTACarousel() {
           },
           {
             "property": "translateY",
-            "frames": [
-              { "frame": 0, "value": 0.1 },
-              { "frame": 1, "value": 0.1 }
-            ]
+            "frames": [{ "frame": 0, "value": 0.1 }, { "frame": 1, "value": 0.1 }]
           }
         ]
       },
       "children": [
-         {
-           "type": "Image",
+        {
+          "type": "Image",
           "properties": {
             "source": { "require": "8.png" }
           }
@@ -117,21 +112,20 @@ export default function UpgradeCTACarousel() {
     }
   ]
 }
-
 ```
 
-``` jsx
+```jsx
 const assets = {
   '8.png': require('./assets/8.png'),
-}
+};
 export default () => Parse(require('./animation.json'), assets);
-
 ```
 
 ## Grouping
+
 You can use `Group` to separate your animation into multiple components
 
-``` jsx
+```jsx
 import { Item, Group } from 'eightfit.carousel.animation';
 
 function Page1(props: any) {

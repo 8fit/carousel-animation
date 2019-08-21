@@ -1,16 +1,37 @@
-import React, { Component } from "react";
-import { Animated, ViewProps } from "react-native";
-import Group from "./group";
+import React, { FunctionComponent, useRef, useEffect } from 'react';
+import { Animated, ViewProps } from 'react-native';
+
+import Group from './group';
 
 interface Frame {
   frame: number;
   value: number | string;
 }
 
+type TransformProperty =
+  | 'perspective'
+  | 'rotate'
+  | 'rotateX'
+  | 'rotateY'
+  | 'rotateZ'
+  | 'scale'
+  | 'scaleX'
+  | 'scaleY'
+  | 'translateX'
+  | 'translateY'
+  | 'skewX'
+  | 'skewY';
+
 interface KeyFrame {
-  property: 'opacity' | 'perspective' | 'rotate' | 'rotateX' | 'rotateY' | 'rotateZ'
-          | 'scale' | 'scaleX' | 'scaleY' | 'translateX' | 'translateY' | 'skewX' | 'skewY';
+  property: TransformProperty | 'opacity';
   frames: Frame[];
+}
+
+interface InterpolatedStyles {
+  opacity?: number | Animated.AnimatedInterpolation;
+  transform: Array<
+    Partial<{ [key in TransformProperty]: number | Animated.AnimatedInterpolation }>
+  >;
 }
 
 export interface ItemProps extends ViewProps {
@@ -22,72 +43,107 @@ export interface ItemProps extends ViewProps {
   pages?: number;
   animatedScroll?: Animated.Value;
   center?: boolean;
-  children?: React.ReactNode;
 }
 
-export default class Item extends Component<ItemProps> {
-  static defaultProps = {
-    keyframes: [],
-  };
+const getInterpolatedStyles = (
+  slideWidth: ItemProps['slideWidth'],
+  slideHeight: ItemProps['slideHeight'],
+  animatedScroll: ItemProps['animatedScroll'],
+  totalFrames: ItemProps['totalFrames'],
+  pages: ItemProps['pages'],
+  skipFrames: ItemProps['skipFrames'],
+  keyframes: ItemProps['keyframes'] = [],
+) => {
+  if (!slideWidth || !slideHeight || !animatedScroll || !keyframes || !totalFrames || !pages) {
+    return null;
+  }
 
-  get style() {
-    const { slideWidth, slideHeight, animatedScroll, keyframes, totalFrames, pages } = this.props;
-    
-    if(!slideWidth || ! slideHeight || !animatedScroll || !keyframes || !totalFrames || !pages) {
-      return null;
-    }
+  const style: InterpolatedStyles = { transform: [{ perspective: 1000 }] };
 
-    let style:any = { transform: [{ perspective: 1000 }] };
+  keyframes.map(keyframe => {
+    const { property, frames } = keyframe;
+    const inputRange: number[] = [];
+    const outputRange: any[] = [];
 
-    keyframes.map(keyframe => {
-      const { property, frames } = keyframe;
-      const inputRange: any[] = [];
-      const outputRange: any[] = [];
+    frames.forEach(({ frame, value }) => {
+      const frameNumber = skipFrames ? frame - skipFrames : frame;
+      const framePerPage = totalFrames / pages;
 
-      frames.forEach(({ frame, value }) => {
-        const frameNumber = this.props.skipFrames ? frame - this.props.skipFrames : frame;
-        const framePerPage = totalFrames / pages;
-        inputRange.push((frameNumber / framePerPage) * slideWidth);
+      inputRange.push((frameNumber / framePerPage) * slideWidth);
 
-        if (property === "translateX" && typeof value === 'number' ) {
-          outputRange.push(value * slideWidth);
-        } else if (property === "translateY" && typeof value === 'number') {
-          outputRange.push(value * slideHeight);
-        } else {
-          outputRange.push(value);
-        }
-      });
-
-      const interpolatedValue = animatedScroll.interpolate({
-        inputRange,
-        outputRange,
-        extrapolate: "clamp"
-      });
-
-      if (property !== "opacity") {
-        style.transform.push({
-          [property]: interpolatedValue
-        });
+      if (property === 'translateX' && typeof value === 'number') {
+        outputRange.push(value * slideWidth);
+      } else if (property === 'translateY' && typeof value === 'number') {
+        outputRange.push(value * slideHeight);
       } else {
-        style.opacity = interpolatedValue;
+        outputRange.push(value);
       }
     });
 
-    return style;
-  }
+    const interpolatedValue = animatedScroll.interpolate({
+      inputRange,
+      outputRange,
+      extrapolate: 'clamp',
+    });
 
-  render() {
-    return (
-      <Animated.View
-        style={[
-          this.style,
-          { position: "absolute", left: 0, right: 0, top: 0 },
-          this.props.center && { alignItems: "center" },
-          this.props.style
-        ]}
-      >
-        <Group {...this.props}>{this.props.children}</Group>
-      </Animated.View>
+    switch (property) {
+      case 'opacity':
+        style.opacity = interpolatedValue;
+        break;
+      default:
+        style.transform.push({ [property]: interpolatedValue });
+        break;
+    }
+  });
+
+  return style;
+};
+
+const Item: FunctionComponent<ItemProps> = props => {
+  const interpolatedStyles = useRef(
+    getInterpolatedStyles(
+      props.slideWidth,
+      props.slideHeight,
+      props.animatedScroll,
+      props.totalFrames,
+      props.pages,
+      props.skipFrames,
+      props.keyframes,
+    ),
+  );
+
+  useEffect(() => {
+    interpolatedStyles.current = getInterpolatedStyles(
+      props.slideWidth,
+      props.slideHeight,
+      props.animatedScroll,
+      props.totalFrames,
+      props.pages,
+      props.skipFrames,
+      props.keyframes,
     );
-  }
-}
+  }, [
+    props.slideWidth,
+    props.slideHeight,
+    props.animatedScroll,
+    props.totalFrames,
+    props.pages,
+    props.skipFrames,
+    props.keyframes,
+  ]);
+
+  return (
+    <Animated.View
+      style={[
+        interpolatedStyles.current,
+        { position: 'absolute', left: 0, right: 0, top: 0 },
+        props.center && { alignItems: 'center' },
+        props.style,
+      ]}
+    >
+      <Group {...props}>{props.children}</Group>
+    </Animated.View>
+  );
+};
+
+export default Item;
