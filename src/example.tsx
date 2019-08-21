@@ -5,9 +5,11 @@ import { Slider, Group, Item } from './index';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('screen');
 
+const AnyItem: any = Item;
+
 const Page1: FunctionComponent<any> = props => (
   <Group {...props}>
-    <Item
+    <AnyItem
       center={true}
       keyframes={[
         {
