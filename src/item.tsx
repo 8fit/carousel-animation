@@ -1,4 +1,4 @@
-import React, { FunctionComponent, memo, useRef, useEffect } from 'react';
+import React, { FunctionComponent, useRef, useEffect } from 'react';
 import { Animated, ViewProps } from 'react-native';
 
 import Group from './group';
@@ -147,4 +147,4 @@ const Item: FunctionComponent<ItemProps> = props => {
   );
 };
 
-export default memo(Item);
+export default Item;

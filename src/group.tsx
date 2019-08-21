@@ -1,22 +1,22 @@
-import React, { FunctionComponent, memo } from 'react';
+import React, { FunctionComponent } from 'react';
 import { View } from 'react-native';
 
 import { ItemProps } from './item';
 
-const Group: FunctionComponent<ItemProps> = props => {
-  const childrenWithProps = React.Children.map(props.children, (child: any, index) =>
+const Group: FunctionComponent<ItemProps> = ({ children, ...groupProps }) => {
+  const childrenWithProps = React.Children.map(children, (child: any, index) =>
     React.cloneElement(child, {
-      animatedScroll: props.animatedScroll,
-      totalFrames: props.totalFrames,
-      slideWidth: props.slideWidth,
-      slideHeight: props.slideHeight,
-      skipFrames: props.skipFrames,
-      pages: props.pages,
-      key: 'KEY_' + index,
+      animatedScroll: groupProps.animatedScroll,
+      totalFrames: groupProps.totalFrames,
+      slideWidth: groupProps.slideWidth,
+      slideHeight: groupProps.slideHeight,
+      skipFrames: groupProps.skipFrames,
+      pages: groupProps.pages,
+      key: `KEY_${index}`,
     }),
   );
 
-  return <View {...props}>{childrenWithProps}</View>;
+  return <View {...groupProps}>{childrenWithProps}</View>;
 };
 
-export default memo(Group);
+export default Group;
