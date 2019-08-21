@@ -1,5 +1,4 @@
 import React, { FunctionComponent, memo, useRef, useEffect } from 'react';
-// import React, { PureComponent } from 'react';
 import { Animated, ViewProps } from 'react-native';
 
 import Group from './group';
@@ -101,35 +100,6 @@ const getInterpolatedStyles = (
   return style;
 };
 
-// export default class Item extends PureComponent<ItemProps> {
-//   private get interpolatedStyles() {
-//     return getInterpolatedStyles(
-//       this.props.slideWidth,
-//       this.props.slideHeight,
-//       this.props.animatedScroll,
-//       this.props.totalFrames,
-//       this.props.pages,
-//       this.props.skipFrames,
-//       this.props.keyframes,
-//     );
-//   }
-
-//   render() {
-//     return (
-//       <Animated.View
-//         style={[
-//           this.interpolatedStyles,
-//           { position: 'absolute', left: 0, right: 0, top: 0 },
-//           this.props.center && { alignItems: 'center' },
-//           this.props.style,
-//         ]}
-//       >
-//         <Group {...this.props}>{this.props.children}</Group>
-//       </Animated.View>
-//     );
-//   }
-// }
-
 const Item: FunctionComponent<ItemProps> = props => {
   const interpolatedStyles = useRef(
     getInterpolatedStyles(
@@ -162,26 +132,6 @@ const Item: FunctionComponent<ItemProps> = props => {
     props.skipFrames,
     props.keyframes,
   ]);
-
-  // const interpolatedStyles = useMemo(() => {
-  //   getInterpolatedStyles(
-  //     props.slideWidth,
-  //     props.slideHeight,
-  //     props.animatedScroll,
-  //     props.totalFrames,
-  //     props.pages,
-  //     props.skipFrames,
-  //     props.keyframes,
-  //   );
-  // }, [
-  //   props.slideWidth,
-  //   props.slideHeight,
-  //   props.animatedScroll,
-  //   props.totalFrames,
-  //   props.pages,
-  //   props.skipFrames,
-  //   props.keyframes,
-  // ]);
 
   return (
     <Animated.View
