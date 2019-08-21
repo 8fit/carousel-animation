@@ -5,25 +5,32 @@
   "author": "drmas",
   "license": "MIT",
   "repository": "8fit/carousel-animation",
-  "main": "build/index.js",
-  "types": "./build/index.d.ts",
+  "main": "dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "postinstall": "npm run build"
-  },
-  "dependencies": {
-    "@types/react": "16.8.3",
-    "@types/react-native": "0.57.65"
+    "build:js": "rollup --config",
+    "build:declaration": "tsc -d --project ./tsconfig.json --noEmit false --emitDeclarationOnly true --declarationDir ./dist",
+    "build": "yarn build:js & yarn build:declaration",
+    "prebuild": "rm -rf ./dist"
   },
   "peerDependencies": {
     "react": "16.8.*",
-    "react-native": "0.59.*",
-    "typescript": "3.5.*"
+    "react-native": "0.59.*"
   },
   "devDependencies": {
-    "react": "16.8.*",
-    "react-native": "0.59.*",
-    "typescript": "3.5.*"
+    "@babel/core": "7.5.5",
+    "@babel/preset-env": "7.5.5",
+    "@babel/preset-react": "7.0.0",
+    "@babel/preset-typescript": "7.3.3",
+    "@types/react": "16.8.3",
+    "@types/react-native": "0.57.65",
+    "react": "16.8.3",
+    "react-native": "0.59.9",
+    "rollup": "1.20.0",
+    "rollup-plugin-babel": "4.3.3",
+    "rollup-plugin-node-resolve": "5.2.0",
+    "rollup-plugin-terser": "5.1.1",
+    "typescript": "3.5.1"
   },
   "files": [
     "dist"
