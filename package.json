@@ -5,12 +5,13 @@
   "author": "drmas",
   "license": "MIT",
   "repository": "8fit/carousel-animation",
-  "main": "dist/index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.module.js",
   "types": "./dist/index.d.ts",
   "scripts": {
     "build:js": "rollup --config",
     "build:declaration": "tsc -d --project ./tsconfig.json --noEmit false --emitDeclarationOnly true --declarationDir ./dist",
-    "build": "yarn build:js & yarn build:declaration",
+    "build": "yarn build:js && yarn build:declaration",
     "prebuild": "rm -rf ./dist"
   },
   "peerDependencies": {
