@@ -12,11 +12,11 @@ export interface SliderProps extends ScrollViewProps {
 }
 
 const Slider: FunctionComponent<SliderProps> = props => {
-  const { current: animatedScroll } = useRef(new Animated.Value(0));
+  const animatedScroll = useRef(new Animated.Value(0));
   const totalWidth = props.slideWidth * props.pages;
   const childrenWithProps = Children.map(props.children, (child: any, index) =>
     cloneElement(child, {
-      animatedScroll: animatedScroll,
+      animatedScroll: animatedScroll.current,
       page: index,
       pages: props.pages,
       slideWidth: props.slideWidth,
@@ -43,9 +43,10 @@ const Slider: FunctionComponent<SliderProps> = props => {
         pagingEnabled
         style={styles.scroll}
         contentContainerStyle={{ width: totalWidth }}
-        onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: animatedScroll } } }], {
-          useNativeDriver: true,
-        })}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { x: animatedScroll.current } } }],
+          { useNativeDriver: true },
+        )}
         scrollEventThrottle={1}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
