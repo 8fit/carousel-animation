@@ -1,4 +1,4 @@
-import React, { FunctionComponent, memo } from 'react';
+import React, { FunctionComponent, memo, useMemo } from 'react';
 import { Animated, ViewProps } from 'react-native';
 
 import Group from './group';
@@ -46,15 +46,15 @@ export interface ItemProps extends ViewProps {
   children?: React.ReactNode;
 }
 
-const getInterpolatedStyles = ({
-  slideWidth,
-  slideHeight,
-  animatedScroll,
-  totalFrames,
-  pages,
-  skipFrames,
-  keyframes = [],
-}: ItemProps) => {
+const getInterpolatedStyles = (
+  slideWidth: ItemProps['slideWidth'],
+  slideHeight: ItemProps['slideHeight'],
+  animatedScroll: ItemProps['animatedScroll'],
+  totalFrames: ItemProps['totalFrames'],
+  pages: ItemProps['pages'],
+  skipFrames: ItemProps['skipFrames'],
+  keyframes: ItemProps['keyframes'] = [],
+) => {
   if (!slideWidth || !slideHeight || !animatedScroll || !keyframes || !totalFrames || !pages) {
     return null;
   }
@@ -87,24 +87,52 @@ const getInterpolatedStyles = ({
       extrapolate: 'clamp',
     });
 
-    if (property !== 'opacity') style.transform.push({ [property]: interpolatedValue });
-    else style.opacity = interpolatedValue;
+    switch (property) {
+      case 'opacity':
+        style.opacity = interpolatedValue;
+        break;
+      default:
+        style.transform.push({ [property]: interpolatedValue });
+        break;
+    }
   });
 
   return style;
 };
 
-const Item: FunctionComponent<ItemProps> = props => (
-  <Animated.View
-    style={[
-      getInterpolatedStyles(props),
-      { position: 'absolute', left: 0, right: 0, top: 0 },
-      props.center && { alignItems: 'center' },
-      props.style,
-    ]}
-  >
-    <Group {...props}>{props.children}</Group>
-  </Animated.View>
-);
+const Item: FunctionComponent<ItemProps> = props => {
+  const interpolatedStyles = useMemo(() => {
+    getInterpolatedStyles(
+      props.slideWidth,
+      props.slideHeight,
+      props.animatedScroll,
+      props.totalFrames,
+      props.pages,
+      props.skipFrames,
+      props.keyframes,
+    );
+  }, [
+    props.slideWidth,
+    props.slideHeight,
+    props.animatedScroll,
+    props.totalFrames,
+    props.pages,
+    props.skipFrames,
+    props.keyframes,
+  ]);
+
+  return (
+    <Animated.View
+      style={[
+        { position: 'absolute', left: 0, right: 0, top: 0 },
+        props.center && { alignItems: 'center' },
+        interpolatedStyles,
+        props.style,
+      ]}
+    >
+      <Group {...props}>{props.children}</Group>
+    </Animated.View>
+  );
+};
 
 export default memo(Item);
