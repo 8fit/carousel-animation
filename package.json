@@ -10,7 +10,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "build:js": "rollup --config",
-    "build:declaration": "tsc -d --project ./tsconfig.json --noEmit false --emitDeclarationOnly true --declarationDir ./dist",
+    "build:declaration": "tsc -d --listEmittedFiles --project ./tsconfig.json --noEmit false --emitDeclarationOnly true --outFile ./dist/index.d.ts",
     "build": "yarn build:js && yarn build:declaration",
     "prebuild": "rm -rf ./dist"
   },
