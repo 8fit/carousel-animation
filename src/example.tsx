@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import { Dimensions } from 'react-native';
 
-import { Slider, Group, Item } from './index';
+import { Slider, Group, Item, GroupProps } from './index';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('screen');
 
-const Page1: FunctionComponent<any> = props => (
+const Page1: FunctionComponent<GroupProps> = props => (
   <Group {...props}>
     <Item
       center={true}

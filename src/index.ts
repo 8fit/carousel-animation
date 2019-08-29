@@ -1,9 +1,12 @@
-import { default as Slider, SliderProps } from './slider';
-import { default as Item, ItemProps } from './item';
+// Import and re-export since Rollup complains when attempting
+// `export { default as Module, Type } from './module';`.
 
-export { default as Group } from './group';
-export { default as Parser } from './parser';
-export { Slider, Item };
+import Slider, { SliderProps } from './slider';
+import Group, { GroupProps } from './group';
+import Item, { KeyFrame, ItemProps } from './item';
 
+export type KeyFrame = KeyFrame;
 export type SliderProps = SliderProps;
+export type GroupProps = GroupProps;
 export type ItemProps = ItemProps;
+export { Group, Slider, Item };

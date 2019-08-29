@@ -1,3 +1,5 @@
+// TODO: This file appears to be unused. Remove?
+
 import React from 'react';
 import { Image, View } from 'react-native';
 
