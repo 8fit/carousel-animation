@@ -15,8 +15,8 @@
     "prebuild": "rm -rf ./dist"
   },
   "peerDependencies": {
-    "react": "16.8.*",
-    "react-native": "0.59.*"
+    "react": ">=16.8.0",
+    "react-native": ">=0.59.0"
   },
   "devDependencies": {
     "@babel/core": "7.5.5",
