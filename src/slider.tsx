@@ -20,7 +20,6 @@ export interface SliderProps extends ScrollViewProps {
   slideHeight: number;
   totalFrames: number;
   pages: number;
-  children: SliderChild | null | (SliderChild | null)[];
   skipFrames?: number;
   onPageChange?: (page: number) => void;
 }
