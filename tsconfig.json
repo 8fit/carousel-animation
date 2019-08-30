@@ -12,5 +12,5 @@
     "target": "esnext"
   },
   "include": ["src"],
-  "exclude": ["node_modules", "dist", "src/example.tsx", "src/parser.tsx"]
+  "exclude": ["node_modules", "dist", "src/example.tsx"]
 }

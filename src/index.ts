@@ -4,9 +4,11 @@
 import Slider, { SliderProps } from './slider';
 import Group, { GroupProps } from './group';
 import Item, { KeyFrame, ItemProps } from './item';
+import FromJSON, { SliderJSON } from './from-json';
 
 export type KeyFrame = KeyFrame;
 export type SliderProps = SliderProps;
 export type GroupProps = GroupProps;
 export type ItemProps = ItemProps;
-export { Group, Slider, Item };
+export type SliderJSON = SliderJSON;
+export { Item, Group, Slider, FromJSON };
