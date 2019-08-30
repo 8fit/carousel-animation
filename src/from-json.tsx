@@ -5,10 +5,6 @@ import Item, { ItemProps } from './item';
 import Group, { GroupProps } from './group';
 import Slider, { SliderProps } from './slider';
 
-interface AssetsLibrary {
-  [key: string]: ImageSourcePropType;
-}
-
 type ChildJSON =
   | {
       type: 'Item';
@@ -35,13 +31,17 @@ export interface SliderJSON {
   children: ChildJSON[];
 }
 
-const mapChild = (assets: AssetsLibrary) => (item: ChildJSON, index: number) =>
+export interface AssetLibrary {
+  [key: string]: ImageSourcePropType;
+}
+
+const mapChild = (assets: AssetLibrary) => (item: ChildJSON, index: number) =>
   createComponent(
     { ...item, properties: { ...item.properties, key: `ITEM__${index}` } } as ChildJSON,
     assets,
   );
 
-function createComponent(json: ChildJSON, assets: AssetsLibrary) {
+function createComponent(json: ChildJSON, assets: AssetLibrary) {
   const withAssets = mapChild(assets);
 
   switch (json.type) {
@@ -61,7 +61,7 @@ function createComponent(json: ChildJSON, assets: AssetsLibrary) {
   }
 }
 
-const FromJSON = ({ properties, children }: SliderJSON, assets: AssetsLibrary) => (
+const FromJSON = ({ properties, children }: SliderJSON, assets: AssetLibrary) => (
   <Slider {...properties}>{children.map(mapChild(assets))}</Slider>
 );
 
