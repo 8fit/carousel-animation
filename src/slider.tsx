@@ -5,7 +5,6 @@ import React, {
   Children,
   cloneElement,
   isValidElement,
-  ReactElement,
 } from 'react';
 import { StyleSheet, Animated, View, ScrollViewProps, ImageProps, ViewProps } from 'react-native';
 
@@ -13,7 +12,6 @@ import { GroupProps } from './group';
 import { ItemProps } from './item';
 
 type ChildProps = GroupProps | ItemProps | ImageProps | ViewProps;
-type SliderChild = ReactElement<ChildProps>;
 
 export interface SliderProps extends ScrollViewProps {
   slideWidth: number;
