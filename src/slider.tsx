@@ -1,38 +1,60 @@
-import React, { FunctionComponent, useRef, useCallback, Children, cloneElement } from 'react';
-import { StyleSheet, Animated, ScrollViewProperties, View, ScrollViewProps } from 'react-native';
+import React, {
+  FunctionComponent,
+  useRef,
+  useCallback,
+  Children,
+  cloneElement,
+  isValidElement,
+} from 'react';
+import { StyleSheet, Animated, View, ScrollViewProps, ImageProps, ViewProps } from 'react-native';
+
+import { GroupProps } from './group';
+import { ItemProps } from './item';
+
+type ChildProps = GroupProps | ItemProps | ImageProps | ViewProps;
 
 export interface SliderProps extends ScrollViewProps {
   slideWidth: number;
   slideHeight: number;
   totalFrames: number;
   pages: number;
-  scrollViewProps?: ScrollViewProperties;
   skipFrames?: number;
   onPageChange?: (page: number) => void;
 }
 
-const Slider: FunctionComponent<SliderProps> = props => {
+const Slider: FunctionComponent<SliderProps> = ({
+  slideWidth,
+  slideHeight,
+  totalFrames,
+  pages,
+  skipFrames,
+  onPageChange,
+  children,
+  ...scrollViewProps
+}) => {
   const animatedScroll = useRef(new Animated.Value(0));
-  const totalWidth = props.slideWidth * props.pages;
-  const childrenWithProps = Children.map(props.children, (child: any, index) =>
-    cloneElement(child, {
+  const totalWidth = slideWidth * pages;
+  const childrenWithProps = Children.map(children, (child, index) => {
+    if (!isValidElement<ChildProps>(child)) return child;
+
+    return cloneElement(child, {
       animatedScroll: animatedScroll.current,
-      page: index,
-      pages: props.pages,
-      slideWidth: props.slideWidth,
-      slideHeight: props.slideHeight,
-      skipFrames: props.skipFrames,
-      totalFrames: props.totalFrames,
-    }),
-  );
+      pages: pages,
+      slideWidth: slideWidth,
+      slideHeight: slideHeight,
+      skipFrames: skipFrames,
+      totalFrames: totalFrames,
+      key: `KEY_${index}`,
+    });
+  });
 
-  const handleMomentumScrollEnd = useCallback(
-    (event: any) => {
-      const page = Math.round(event.nativeEvent.contentOffset.x / props.slideWidth);
+  const handleMomentumScrollEnd = useCallback<NonNullable<ScrollViewProps['onMomentumScrollEnd']>>(
+    event => {
+      if (!onPageChange) return;
 
-      if (props.onPageChange) props.onPageChange(page);
+      onPageChange(Math.round(event.nativeEvent.contentOffset.x / slideWidth));
     },
-    [props.slideWidth, props.onPageChange],
+    [slideWidth, onPageChange],
   );
 
   return (
@@ -51,7 +73,7 @@ const Slider: FunctionComponent<SliderProps> = props => {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         onMomentumScrollEnd={handleMomentumScrollEnd}
-        {...props.scrollViewProps}
+        {...scrollViewProps}
       />
     </>
   );

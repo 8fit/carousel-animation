@@ -1,11 +1,15 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, isValidElement, cloneElement, Children } from 'react';
 import { View } from 'react-native';
 
 import { ItemProps } from './item';
 
-const Group: FunctionComponent<ItemProps> = ({ children, ...groupProps }) => {
-  const childrenWithProps = React.Children.map(children, (child: any, index) =>
-    React.cloneElement(child, {
+export interface GroupProps extends ItemProps {}
+
+const Group: FunctionComponent<GroupProps> = ({ children, ...groupProps }) => {
+  const childrenWithProps = Children.map(children, (child, index) => {
+    if (!isValidElement<ItemProps>(child)) return child;
+
+    return cloneElement(child, {
       animatedScroll: groupProps.animatedScroll,
       totalFrames: groupProps.totalFrames,
       slideWidth: groupProps.slideWidth,
@@ -13,8 +17,8 @@ const Group: FunctionComponent<ItemProps> = ({ children, ...groupProps }) => {
       skipFrames: groupProps.skipFrames,
       pages: groupProps.pages,
       key: `KEY_${index}`,
-    }),
-  );
+    });
+  });
 
   return <View {...groupProps}>{childrenWithProps}</View>;
 };

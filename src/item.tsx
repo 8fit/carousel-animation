@@ -22,7 +22,7 @@ type TransformProperty =
   | 'skewX'
   | 'skewY';
 
-interface KeyFrame {
+export interface KeyFrame {
   property: TransformProperty | 'opacity';
   frames: Frame[];
 }
@@ -63,6 +63,9 @@ const getInterpolatedStyles = (
   keyframes.map(keyframe => {
     const { property, frames } = keyframe;
     const inputRange: number[] = [];
+    // This is currently any[] since Animated.interpolate is typed to take homogenous arrays, i.e.
+    // string[] | number[], but not a mix - it will error on (string | number)[]
+    // Current implementation of this method can result in an array of mixed strings and numbers
     const outputRange: any[] = [];
 
     frames.forEach(({ frame, value }) => {

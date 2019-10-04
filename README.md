@@ -115,10 +115,13 @@ export default function UpgradeCTACarousel() {
 ```
 
 ```jsx
+import { FromJSON } from '@8fit/carousel-animation';
+
 const assets = {
   '8.png': require('./assets/8.png'),
 };
-export default () => Parse(require('./animation.json'), assets);
+
+export default () => FromJSON(require('./animation.json'), assets);
 ```
 
 ## Grouping
@@ -126,7 +129,7 @@ export default () => Parse(require('./animation.json'), assets);
 You can use `Group` to separate your animation into multiple components
 
 ```jsx
-import { Item, Group } from 'eightfit.carousel.animation';
+import { Item, Group } from '@8fit/carousel-animation';
 
 function Page1(props: any) {
   return (
