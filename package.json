@@ -17,12 +17,12 @@
   },
   "peerDependencies": {
     "react": "16.8.*",
-    "react-native": "0.59.*",
+    "react-native": "0.62.*",
     "typescript": "3.5.*"
   },
   "devDependencies": {
     "react": "16.8.*",
-    "react-native": "0.59.*",
+    "react-native": "0.62.*",
     "typescript": "3.5.*"
   },
   "files": [
