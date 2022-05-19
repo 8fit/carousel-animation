@@ -60,7 +60,7 @@ const getInterpolatedStyles = (
 
   const style: InterpolatedStyles = { transform: [{ perspective: 1000 }] };
 
-  keyframes.map(keyframe => {
+  keyframes.map((keyframe) => {
     const { property, frames } = keyframe;
     const inputRange: number[] = [];
     const outputRange: any[] = [];
@@ -99,7 +99,7 @@ const getInterpolatedStyles = (
   return style;
 };
 
-const Item: FunctionComponent<ItemProps> = props => {
+const Item: FunctionComponent<ItemProps> = (props) => {
   const interpolatedStyles = useRef(
     getInterpolatedStyles(
       props.slideWidth,

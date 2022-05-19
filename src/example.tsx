@@ -5,7 +5,7 @@ import { Slider, Group, Item } from './index';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('screen');
 
-const Page1: FunctionComponent<any> = props => (
+const Page1: FunctionComponent<any> = (props) => (
   <Group {...props}>
     <Item
       center={true}
@@ -20,15 +20,26 @@ const Page1: FunctionComponent<any> = props => (
         },
         {
           property: 'scale',
-          frames: [{ frame: -100, value: 1 }, { frame: 0, value: 1 }, { frame: 182, value: 1.1 }],
+          frames: [
+            { frame: -100, value: 1 },
+            { frame: 0, value: 1 },
+            { frame: 182, value: 1.1 },
+          ],
         },
         {
           property: 'opacity',
-          frames: [{ frame: 0, value: 1 }, { frame: 188, value: 1 }, { frame: 300, value: 0 }],
+          frames: [
+            { frame: 0, value: 1 },
+            { frame: 188, value: 1 },
+            { frame: 300, value: 0 },
+          ],
         },
         {
           property: 'translateY',
-          frames: [{ frame: 0, value: 0.1 }, { frame: 1, value: 0.1 }],
+          frames: [
+            { frame: 0, value: 0.1 },
+            { frame: 1, value: 0.1 },
+          ],
         },
       ]}
     />
