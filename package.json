@@ -12,18 +12,18 @@
     "postinstall": "npm run build"
   },
   "dependencies": {
-    "@types/react": "16.8.3",
-    "@types/react-native": "0.57.65"
+    "@types/react": "17.0.34",
+    "@types/react-native": "0.67.4"
   },
   "peerDependencies": {
-    "react": "16.8.*",
+    "react": "17.0.*",
     "react-native": "0.59.*",
     "typescript": "3.5.*"
   },
   "devDependencies": {
-    "react": "16.8.*",
-    "react-native": "0.59.*",
-    "typescript": "3.5.*"
+    "react": "17.0.2",
+    "react-native": "0.67.4",
+    "typescript": "3.8.3"
   },
   "files": [
     "dist"
