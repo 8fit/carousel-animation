@@ -27,13 +27,6 @@ interface KeyFrame {
   frames: Frame[];
 }
 
-interface InterpolatedStyles {
-  opacity?: number | Animated.AnimatedInterpolation;
-  transform: Array<
-    Partial<{ [key in TransformProperty]: number | Animated.AnimatedInterpolation }>
-  >;
-}
-
 export interface ItemProps extends ViewProps {
   slideWidth?: number;
   slideHeight?: number;
@@ -58,9 +51,9 @@ const getInterpolatedStyles = (
     return null;
   }
 
-  const style: InterpolatedStyles = { transform: [{ perspective: 1000 }] };
+  const style: any = { transform: [{ perspective: 1000 }] };
 
-  keyframes.map(keyframe => {
+  keyframes.map((keyframe) => {
     const { property, frames } = keyframe;
     const inputRange: number[] = [];
     const outputRange: any[] = [];
@@ -99,7 +92,7 @@ const getInterpolatedStyles = (
   return style;
 };
 
-const Item: FunctionComponent<ItemProps> = props => {
+const Item: FunctionComponent<ItemProps> = (props) => {
   const interpolatedStyles = useRef(
     getInterpolatedStyles(
       props.slideWidth,
