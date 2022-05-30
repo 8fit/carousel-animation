@@ -11,7 +11,7 @@ export interface SliderProps extends ScrollViewProps {
   onPageChange?: (page: number) => void;
 }
 
-const Slider: FunctionComponent<SliderProps> = props => {
+const Slider: FunctionComponent<SliderProps> = (props) => {
   const animatedScroll = useRef(new Animated.Value(0));
   const totalWidth = props.slideWidth * props.pages;
   const childrenWithProps = Children.map(props.children, (child: any, index) =>
