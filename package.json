@@ -1,6 +1,6 @@
 {
   "name": "@8fit/carousel-animation",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Create carousel animation using configuration files",
   "author": "drmas",
   "license": "MIT",
@@ -8,8 +8,7 @@
   "main": "build/index.js",
   "types": "./build/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "postinstall": "npm run build"
+    "build": "tsc"
   },
   "dependencies": {
     "@types/react": "17.0.34",
